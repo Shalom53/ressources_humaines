@@ -25,13 +25,8 @@ return new class extends Migration
             $table->bigInteger('annee_id')->nullable();
             $table->bigInteger('inscription_id')->nullable();
             $table->text('description_domicile')->nullable();
-
-
             $table->bigInteger('utilisateur_id')->nullable();
-
-            $table->bigInteger('zone_id')->nullable();
-           
-
+            $table->bigInteger('zone_id')->nullable();         
             $table->integer('etat')->default(1);
             $table->timestamps();
         });
