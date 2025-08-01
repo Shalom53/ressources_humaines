@@ -1,33 +1,20 @@
 <?php
 
-namespace App\Models\Comptabilite;
+namespace App\Models;
 
-use App\Types\TypeStatus;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Detail extends Model
 {
     use HasFactory;
 
-    public function __construct(array $attributes=[])
-    {
-        parent::__construct($attributes);
-        $this->etat=TypeStatus::ACTIF;
-    }
+    protected $table = 'details';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
-
-
         'montant',
         'libelle',
         'paiement_id',
-        
         'type_paiement',
         'inscription_id',
         'frais_ecole_id',
@@ -39,57 +26,78 @@ class Detail extends Model
         'caissier_id',
         'date_paiement',
         'date_encaissement',
-        
-
-
         'etat',
-
     ];
 
+    /**
+     * Scope pour récupérer les détails actifs
+     */
+    public function scopeActifs($query)
+    {
+        return $query->where('etat', 1);
+    }
 
-
+    /**
+     * Paiement parent de ce détail
+     */
     public function paiement()
     {
         return $this->belongsTo(Paiement::class);
     }
 
-
-     public function inscription()
+    /**
+     * Inscription liée à ce paiement
+     */
+    public function inscription()
     {
         return $this->belongsTo(Inscription::class);
     }
 
-
-    public function fraisecole()
+    /**
+     * Frais scolaire concerné
+     */
+    public function frais()
     {
-        return $this->belongsTo(FraisEcole::class);
+        return $this->belongsTo(FraisEcole::class, 'frais_ecole_id');
     }
 
-     public function annee()
+    /**
+     * Année scolaire
+     */
+    public function annee()
     {
         return $this->belongsTo(Annee::class);
     }
 
-     public function souscription()
+    /**
+     * Souscription liée si applicable
+     */
+    public function souscription()
     {
         return $this->belongsTo(Souscription::class);
     }
 
+    /**
+     * Caisse ayant enregistré le paiement
+     */
+    public function caisse()
+    {
+        return $this->belongsTo(Caisse::class);
+    }
 
+    /**
+     * Comptable ayant traité le paiement
+     */
     public function comptable()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(Utilisateur::class, 'comptable_id');
     }
 
-
+    /**
+     * Caissier ayant encaissé
+     */
     public function caissier()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(Utilisateur::class, 'caissier_id');
     }
-
-
-
-
-
-
 }

@@ -1,19 +1,11 @@
 <?php
 
 namespace App\Repositories\Interfaces;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 
-interface CompteRepositoryInterface
+interface CompteRepositoryInterface extends BaseRepositoryInterface
 {
 
-    public function rechercheCompteById($id);
-    public function addCompte(array $data);
-    public function updateCompte($id, array $data);
-    public function deleteCompte($id);
 
-    public function getListe(array $filters);
-
-    public function getTotal(array $filters);
-   
-
-
+ 
 }

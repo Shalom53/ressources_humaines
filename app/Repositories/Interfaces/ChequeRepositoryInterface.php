@@ -1,20 +1,11 @@
 <?php
 
 namespace App\Repositories\Interfaces;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 
-interface ChequeRepositoryInterface
+interface ChequeRepositoryInterface extends BaseRepositoryInterface
 {
 
-    public function rechercheChequeById($id);
-    public function addCheque(array $data);
-    public function updateCheque($id, array $data);
-    public function deleteCheque($id);
 
-    public function getListe(array $filters);
-
-    public function getTotal(array $filters);
-
-
-
-
+ 
 }

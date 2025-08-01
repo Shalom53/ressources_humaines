@@ -1,20 +1,12 @@
 <?php
 
 namespace App\Repositories\Interfaces;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 
-interface DetailRepositoryInterface
+interface DetailRepositoryInterface extends BaseRepositoryInterface
 {
 
-    public function rechercheDetailById($id);
-    public function addDetail(array $data);
-    public function updateDetail($id, array $data);
-    public function deleteDetail($id);
-
-    public function getListe(array $filters);
-
-    public function getTotal(array $filters);
-   
 
 
-
+	
 }

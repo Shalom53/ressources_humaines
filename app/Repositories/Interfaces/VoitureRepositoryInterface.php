@@ -1,20 +1,12 @@
 <?php
 
-namespace  App\Repositories\Interfaces;
+namespace App\Repositories\Interfaces;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 
-interface VoitureRepositoryInterface
+interface VoitureRepositoryInterface extends BaseRepositoryInterface
 {
 
-    public function rechercheVoitureById($id);
-    public function addVoiture(array $data);
-    public function updateVoiture($id, array $data);
-    public function deleteVoiture($id);
-
-    public function getListe(array $filters);
-
-    public function getTotal(array $filters);
 
 
-
-
+	
 }

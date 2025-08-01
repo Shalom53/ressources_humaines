@@ -1,20 +1,12 @@
 <?php
 
 namespace App\Repositories\Interfaces;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 
-interface CycleRepositoryInterface
+interface CycleRepositoryInterface extends BaseRepositoryInterface
 {
 
-    public function rechercheCycleById($id);
-    public function addCycle(array $data);
-    public function updateCycle($id, array $data);
-    public function deleteCycle($id);
-
-    public function getListe(array $filters);
-
-    public function getTotal(array $filters);
-    public function getListeAvecTotalNiveau(array $filters);
 
 
-
+	
 }

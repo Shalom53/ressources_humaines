@@ -19,7 +19,7 @@ use App\Http\Controllers\BusVoitureController;
 use App\Http\Controllers\BusChauffeurController;
 
 
-
+// MENU INSCRIPTION 
 
 // 📂 Inscriptions 
 
@@ -30,6 +30,17 @@ Route::get('/inscriptions/modifier/{id}', [InscriptionController::class, 'show']
 Route::post('/inscriptions/update/{id}', [InscriptionController::class, 'update'])->name('admin_inscriptions_update');
 
 
+      // 📂 Cantines Inscription
+
+
+    Route::get('/cantines/inscriptions/liste', [CantineInscriptionController::class, 'liste'])->name('admin_cantine_liste');
+    Route::get('/cantines/inscriptions/telechargement', [CantineInscriptionController::class, 'telecharger'])->name('admin_cantine_telecharger');   
+
+        Route::get('/cantines/inscriptions/detail/{id}', [CantineInscriptionController::class, 'detail'])->name('admin_cantine_inscription_detail');
+
+
+
+//MENU PAIEMENT 
 // 📂 Paiements 
 
 
@@ -62,6 +73,19 @@ Route::post('/caisses/cloturer/{id}', [CaisseController::class, 'valider_cloture
 Route::post('/caisses/generer/caissier', [CaisseController::class, 'genererCaissier'])->name('admin_generer_caissier');
 
 
+
+         // 📂 Reporting 
+
+
+     Route::get('/reportings/paiement', [ReportingController::class, 'paiement'])->name('admin_reporting_paiement');
+    Route::get('/reportings/prevision', [ReportingController::class, 'prevision'])->name('admin_reporting_prevision');
+
+
+
+
+// PARAMETRES 
+
+
 // 📂 Niveaux 
 
     Route::get('/niveaux/index', [NiveauController::class, 'index'])->name('admin_niveau_index');
@@ -80,6 +104,25 @@ Route::post('/caisses/generer/caissier', [CaisseController::class, 'genererCaiss
     Route::post('/cycles/delete/{id}', [CycleController::class, 'delete'])->name('admin_cycle_delete');
 
 
+    // 📂 Frais ecole 
+
+    Route::get('/fraisecoles/index', [FraisEcoleController::class, 'index'])->name('admin_fraisecoles_index');
+    Route::post('/fraisecoles/save', [FraisEcoleController::class, 'store'])->name('admin_fraisecoles_store');
+    Route::get('/fraisecoles/modifier/{id}', [FraisEcoleController::class, 'edit'])->name('admin_fraisecoles_edit');
+    Route::post('/fraisecoles/update/{id}', [FraisEcoleController::class, 'update'])->name('admin_fraisecoles_update');
+    Route::post('/fraisecoles/delete/{id}', [FraisEcoleController::class, 'delete'])->name('admin_fraisecoles_delete');
+
+
+     // 📂 Annee scolaires 
+
+    Route::get('/annees/index', [AnneeController::class, 'index'])->name('admin_annees_index');
+    Route::post('/annees/save', [AnneeController::class, 'store'])->name('admin_annees_store');
+    Route::get('/annees/modifier/{id}', [AnneeController::class, 'edit'])->name('admin_annees_edit');
+    Route::post('/annees/update/{id}', [AnneeController::class, 'update'])->name('admin_annees_update');
+    Route::post('/annees/delete/{id}', [AnneeController::class, 'delete'])->name('admin_annees_delete');
+
+
+
     // 📂 Classes  
 
     Route::get('/classes/index', [ClasseController::class, 'index'])->name('admin_classe_index');
@@ -94,73 +137,77 @@ Route::post('/caisses/generer/caissier', [CaisseController::class, 'genererCaiss
     Route::get('/classes/details/{id}', [ClasseController::class, 'detail'])->name('admin_classe_detail');
 
 
-         // 📂 Reporting 
-
-
-     Route::get('/reportings/paiement', [ReportingController::class, 'paiement'])->name('admin_reporting_paiement');
-    Route::get('/reportings/prevision', [ReportingController::class, 'prevision'])->name('admin_reporting_prevision');
     
 
-            // 📂 Cantines Inscription
-
-
-    Route::get('/cantines/inscriptions/liste', [CantineInscriptionController::class, 'liste'])->name('admin_cantine_liste');
-    Route::get('/cantines/inscriptions/telechargement', [CantineInscriptionController::class, 'telecharger'])->name('admin_cantine_telecharger');   
-
-        Route::get('/cantines/inscriptions/detail/{id}', [CantineInscriptionController::class, 'detail'])->name('admin_cantine_inscription_detail');
+      // CANTINES 
 
       // 📂 Cantines Offre 
 
-    Route::get('/cantines/offres/index', [CantineOffreController::class, 'offre'])->name('admin_cantine_offre');
-     Route::post('/cantines/offres/ajouter', [CantineOffreController::class, 'ajouter'])->name('admin_cantine_offre_ajouter');
-     Route::get('/cantines/offres/{id}', [CantineOffreController::class, 'modifier'])->name('admin_cantine_offre_modifier');
-      Route::post('/cantines/offres/update/{id}', [CantineOffreController::class, 'update'])->name('admin_cantine_offre_update');
-    Route::post('/cantines/offres/delete/{id}', [CantineOffreController::class, 'delete'])->name('admin_cantine_offre_delete');
-    Route::get('/cantines/offres/detail/{id}', [CantineOffreController::class, 'detail'])->name('admin_cantine_offre_detail');
+    Route::get('/cantines/offres/index', [OffreController::class, 'offre'])->name('admin_cantine_offre');
+     Route::post('/cantines/offres/ajouter', [OffreController::class, 'ajouter'])->name('admin_cantine_offre_ajouter');
+     Route::get('/cantines/offres/{id}', [OffreController::class, 'modifier'])->name('admin_cantine_offre_modifier');
+      Route::post('/cantines/offres/update/{id}', [OffreController::class, 'update'])->name('admin_cantine_offre_update');
+    Route::post('/cantines/offres/delete/{id}', [OffreController::class, 'delete'])->name('admin_cantine_offre_delete');
+    Route::get('/cantines/offres/detail/{id}', [OffreController::class, 'detail'])->name('admin_cantine_offre_detail');
 
 
  // 📂 Cantines fournisseurs
 
-    Route::get('/cantines/fournisseurs/index', [CantineFournisseurController::class, 'liste'])->name('admin_cantine_fournisseurs');
-     Route::post('/cantines/fournisseurs/ajouter', [CantineFournisseurController::class, 'ajouter'])->name('admin_cantine_fournisseurs_ajouter');
-     Route::get('/cantines/fournisseurs/{id}', [CantineFournisseurController::class, 'modifier'])->name('admin_cantine_fournisseurs_modifier');
-      Route::post('/cantines/fournisseurs/update/{id}', [CantineFournisseurController::class, 'update'])->name('admin_cantine_fournisseurs_update');
-    Route::post('/cantines/fournisseurs/delete/{id}', [CantineFournisseurController::class, 'delete'])->name('admin_cantine_fournisseurs_delete');
-    Route::get('/cantines/fournisseurs/detail/{id}', [CantineFournisseurController::class, 'detail'])->name('admin_cantine_fournisseurs_detail');
+    Route::get('/cantines/fournisseurs/index', [FournisseurController::class, 'liste'])->name('admin_cantine_fournisseurs');
+     Route::post('/cantines/fournisseurs/ajouter', [FournisseurController::class, 'ajouter'])->name('admin_cantine_fournisseurs_ajouter');
+     Route::get('/cantines/fournisseurs/{id}', [FournisseurController::class, 'modifier'])->name('admin_cantine_fournisseurs_modifier');
+      Route::post('/cantines/fournisseurs/update/{id}', [FournisseurController::class, 'update'])->name('admin_cantine_fournisseurs_update');
+    Route::post('/cantines/fournisseurs/delete/{id}', [FournisseurController::class, 'delete'])->name('admin_cantine_fournisseurs_delete');
+    Route::get('/cantines/fournisseurs/detail/{id}', [FournisseurController::class, 'detail'])->name('admin_cantine_fournisseurs_detail');
 
 
 
     // 📂 Cantine  Achats  
 
 
-    Route::get('/cantines/achats/index', [CantineAchatController::class, 'index'])->name('admin_cantines_achats_index');
-    Route::post('/cantines/achats/ajouter', [CantineAchatController::class, 'ajouter'])->name('admin_cantines_achats_ajouter');
-     Route::get('/cantines/achats/modifier/{id}', [CantineAchatController::class, 'modifier'])->name('admin_cantines_achats_modifier');
-      Route::post('/cantines/achats/update/{id}', [CantineAchatController::class, 'update'])->name('admin_cantines_achats_update');
-    Route::post('/cantines/achats/delete/{id}', [CantineAchatController::class, 'delete'])->name('admin_cantines_achats_delete');
-    Route::get('/cantines/achats/detail/{id}', [CantineAchatController::class, 'detail'])->name('admin_cantines_achats_detail');
-
-// 📂 Cantine  Mouvements   
+    Route::get('/cantines/achats/index', [AchatController::class, 'index'])->name('admin_cantines_achats_index');
+    Route::post('/cantines/achats/ajouter', [AchatController::class, 'ajouter'])->name('admin_cantines_achats_ajouter');
+     Route::get('/cantines/achats/modifier/{id}', [AchatController::class, 'modifier'])->name('admin_cantines_achats_modifier');
+      Route::post('/cantines/achats/update/{id}', [AchatController::class, 'update'])->name('admin_cantines_achats_update');
+    Route::post('/cantines/achats/delete/{id}', [AchatController::class, 'delete'])->name('admin_cantines_achats_delete');
+    Route::get('/cantines/achats/detail/{id}', [AchatController::class, 'detail'])->name('admin_cantines_achats_detail');
 
 
-    Route::get('/cantines/mouvements/index', [CantineMouvementController::class, 'index'])->name('admin_cantines_mouvements_index');
-    Route::post('/cantines/mouvements/ajouter', [CantineMouvementController::class, 'ajouter'])->name('admin_cantines_mouvements_ajouter');
-     Route::get('/cantines/mouvements/modifier/{id}', [CantineMouvementController::class, 'modifier'])->name('admin_cantines_mouvements_modifier');
-      Route::post('/cantines/mouvements/update/{id}', [CantineMouvementController::class, 'update'])->name('admin_cantines_mouvements_update');
-    Route::post('/cantines/mouvements/delete/{id}', [CantineMouvementController::class, 'delete'])->name('admin_cantines_mouvements_delete');
+     // 📂 Cantine  Magasins   
 
 
-    // 📂 Cantine  Manus    
+    Route::get('/cantines/magasins/index', [MagasinController::class, 'index'])->name('admin_cantines_magasins_index');
+    Route::post('/cantines/magasins/ajouter', [MagasinController::class, 'ajouter'])->name('admin_cantines_magasins_ajouter');
+     Route::get('/cantines/magasins/modifier/{id}', [MagasinController::class, 'modifier'])->name('admin_cantines_magasins_modifier');
+      Route::post('/cantines/magasins/update/{id}', [MagasinController::class, 'update'])->name('admin_cantines_magasin_update');
+    Route::post('/cantines/magasins/delete/{id}', [MagasinController::class, 'delete'])->name('admin_cantines_magasins_delete');
+    Route::get('/cantines/magasins/detail/{id}', [MagasinController::class, 'detail'])->name('admin_cantines_magasins_detail');
+
+// 📂 Cantine  stocks   
 
 
-    Route::get('/cantines/menus/index', [CantineMenuController::class, 'index'])->name('admin_cantines_menus_index');
-    Route::post('/cantines/menus/ajouter', [CantineMenuController::class, 'ajouter'])->name('admin_cantines_menus_ajouter');
-     Route::get('/cantines/menus/modifier/{id}', [CantineMenuController::class, 'modifier'])->name('admin_cantines_menus_modifier');
-      Route::post('/cantines/menus/update/{id}', [CantineMenuController::class, 'update'])->name('admin_cantines_menus_update');
-    Route::post('/cantines/menus/delete/{id}', [CantineMenuController::class, 'delete'])->name('admin_cantines_menus_delete');
-    
+    Route::get('/cantines/stocks/index', [StockController::class, 'index'])->name('admin_cantines_stocks_index');
+    Route::post('/cantines/stocks/ajouter', [StockController::class, 'ajouter'])->name('admin_cantines_stocks_ajouter');
+     Route::get('/cantines/stocks/modifier/{id}', [StockController::class, 'modifier'])->name('admin_cantines_stocks_modifier');
+      Route::post('/cantines/stocks/update/{id}', [StockController::class, 'update'])->name('admin_cantines_stocks_update');
+    Route::post('/cantines/stocks/delete/{id}', [StockController::class, 'delete'])->name('admin_cantines_stocks_delete');
 
 
+
+
+// 📂 Cantine  Bons    
+
+
+    Route::get('/cantines/bons/index', [BonController::class, 'index'])->name('admin_bons_index');
+    Route::post('/cantines/bons/ajouter', [BonController::class, 'ajouter'])->name('admin_bons_ajouter');
+     Route::get('/cantines/bons/modifier/{id}', [BonController::class, 'modifier'])->name('admin_bons_modifier');
+      Route::post('/cantines/bons/update/{id}', [BonController::class, 'update'])->name('admin_bons_update');
+    Route::post('/cantines/stocks/delete/{id}', [BonController::class, 'delete'])->name('admin_bons_delete');
+
+
+
+// MENU BUS 
+   
 
 
      // 📂 Bus  Inscriptions 
