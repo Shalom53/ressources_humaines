@@ -2,54 +2,43 @@
 
 namespace App\Http\Requests;
 
-use App\Types\TypeStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ZoneRequest extends GenericRequest
+class ZoneRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
+        return [
+            'libelle' => 'nullable|string|max:255|unique:zones,libelle,' . $this->route('zone'),
+            'description' => 'nullable|string|max:1000',
 
-         $zoneId = $this->route('id'); 
+            'chauffeur_id' => 'nullable|exists:chauffeurs,id',
+            'voiture_id' => 'nullable|exists:voitures,id',
+            'annee_id' => 'nullable|exists:annees,id',
 
-       return [
-            'libelle' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('zones', 'libelle')
-                    ->where('statut', 'actif')
-                    ->ignore($zoneId),
-            ],
+
         ];
     }
 
-
     public function messages(): array
     {
-         return [
-            'libelle.required' => 'Le libellé est obligatoire.',
+        return [
             'libelle.string' => 'Le libellé doit être une chaîne de caractères.',
             'libelle.max' => 'Le libellé ne peut pas dépasser 255 caractères.',
-            'libelle.unique' => 'Ce libellé est déjà utilisé pour un zone actif.',
-        ];
+            'libelle.unique' => 'Une zone avec ce libellé existe déjà.',
+            'description.string' => 'La description doit être une chaîne de caractères.',
+            'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
 
-        
+            'chauffeur_id.exists' => 'Le chauffeur sélectionné est invalide.',
+            'voiture_id.exists' => 'La voiture sélectionnée est invalide.',
+            'annee_id.exists' => 'L\'année sélectionnée est invalide.',
+
+
+        ];
     }
 }

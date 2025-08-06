@@ -2,61 +2,46 @@
 
 namespace App\Http\Requests;
 
-use App\Types\TypeStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class CaisseRequest extends GenericRequest
+class CaisseRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
-
         return [
-            'libelle' => [
-                'required',
-                'string',
-                'max:100',
-                Rule::unique('caisses', 'libelle')
-                    ->where('etat', 'ACTIF')
-                    ->ignore($this->route('id')),
-            ],
-            'solde_initial' => [
-                'required',
-                'numeric',
-                'min:0',
-            ],
+            'libelle' => 'required|string|max:255',
+            'solde_initial' => 'nullable|numeric|min:0',
+            'solde_final' => 'nullable|numeric|min:0',
+            'date_ouverture' => 'nullable|date',
+            'date_cloture' => 'nullable|date|after_or_equal:date_ouverture',
+            'statut' => 'nullable|in:0,1,2', // Exemple : 0 = fermé, 1 = ouvert, 2 = clôturé
+            'utilisateur_id' => 'nullable|exists:utilisateurs,id',
+            'responsable_id' => 'nullable|exists:utilisateurs,id',
+            'annee_id' => 'nullable|exists:annees,id',
+
         ];
     }
 
-
     public function messages(): array
     {
-         return [
-            'libelle.required' => 'Le champ libellé est obligatoire.',
+        return [
+            'libelle.required' => 'Le libellé est obligatoire.',
             'libelle.string' => 'Le libellé doit être une chaîne de caractères.',
-            'libelle.max' => 'Le libellé ne peut pas dépasser 100 caractères.',
-            'libelle.unique' => 'Une caisse active avec ce libellé existe déjà.',
-
-            'solde_initial.required' => 'Le solde initial est obligatoire.',
             'solde_initial.numeric' => 'Le solde initial doit être un nombre.',
-            'solde_initial.min' => 'Le solde initial doit être supérieur ou égal à 0.',
-        ];
+            'solde_final.numeric' => 'Le solde final doit être un nombre.',
+            'date_ouverture.date' => 'La date d\'ouverture doit être une date valide.',
+            'date_cloture.date' => 'La date de clôture doit être une date valide.',
+            'date_cloture.after_or_equal' => 'La date de clôture doit être postérieure ou égale à la date d\'ouverture.',
+            'statut.in' => 'Le statut est invalide.',
+            'utilisateur_id.exists' => 'L\'utilisateur est invalide.',
+            'responsable_id.exists' => 'Le responsable est invalide.',
+            'annee_id.exists' => 'L\'année est invalide.',
 
-        
+        ];
     }
 }

@@ -2,56 +2,34 @@
 
 namespace App\Http\Requests;
 
-use App\Types\TypeStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ChauffeurRequest extends GenericRequest
+class ChauffeurRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return true; // à adapter si tu as un système de permissions
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
-
         return [
-            'nom' => ['required', 'string', 'max:100'],
-            'prenom' => ['required', 'string', 'max:100'],
-            'telephone' => [
-                'required',
-                'regex:/^(?:\+?\d{1,3})?[0-9]{9,15}$/',
-            ],
+            'nom' => 'nullable|string|max:100',
+            'prenom' => 'nullable|string|max:100',
+            'telephone' => 'nullable|string|regex:/^(\+?\d{8,15})$/',
+            'annee_id' => 'nullable|exists:annees,id',
+
         ];
     }
-
 
     public function messages(): array
     {
-         return [
-           'nom.required' => 'Le champ nom est obligatoire.',
+        return [
             'nom.string' => 'Le nom doit être une chaîne de caractères.',
-            'nom.max' => 'Le nom ne peut pas dépasser 100 caractères.',
-
-            'prenom.required' => 'Le champ prénom est obligatoire.',
             'prenom.string' => 'Le prénom doit être une chaîne de caractères.',
-            'prenom.max' => 'Le prénom ne peut pas dépasser 100 caractères.',
+            'telephone.regex' => 'Le numéro de téléphone est invalide.',
+            'annee_id.exists' => "L'année sélectionnée est invalide.",
 
-            'telephone.required' => 'Le numéro de téléphone est obligatoire.',
-            'telephone.regex' => 'Le numéro de téléphone n\'est pas valide.',
         ];
-
-
     }
 }

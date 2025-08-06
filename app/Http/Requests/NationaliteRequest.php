@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CycleRequest extends FormRequest
+class NationaliteRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,7 @@ class CycleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'libelle' => 'required|string|max:255',
+            'libelle' => 'nullable|string|max:100|unique:nationalites,libelle,' . $this->route('nationalite'),
 
         ];
     }
@@ -22,9 +22,9 @@ class CycleRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'libelle.required' => 'Le libellé est obligatoire.',
             'libelle.string' => 'Le libellé doit être une chaîne de caractères.',
-            'libelle.max' => 'Le libellé ne doit pas dépasser 255 caractères.',
+            'libelle.max' => 'Le libellé ne peut pas dépasser 100 caractères.',
+            'libelle.unique' => 'Cette nationalité existe déjà.',
 
         ];
     }

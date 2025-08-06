@@ -2,66 +2,41 @@
 
 namespace App\Http\Requests;
 
-use App\Types\TypeStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class AnneeRequest extends GenericRequest
+class AnneeRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return true; // Autorise toutes les requêtes, à adapter selon ta logique
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
-
-
-        $anneeId = $this->route('id');
-
         return [
-            'libelle' => [
-                'required',
-                'string',
-                'max:100',
-                Rule::unique('annees', 'libelle')
-                    ->where('etat', TypeStatus::ACTIF)
-                    ->ignore($anneeId),
-            ],
-
-            'date_rentree' => ['nullable'],
-            'date_fin' => ['nullable'],
-            'date_ouverture_inscription' => ['nullable'],
-            'date_fermeture_reinscription' => ['nullable'],
-            'statut_annee' => ['nullable'],
-
-
-
-
+            'libelle' => 'required|string|max:255',
+            'date_rentree' => 'required|date',
+            'date_fin' => 'required|date|after_or_equal:date_rentree',
+            'date_ouverture_inscription' => 'nullable|date',
+            'date_fermeture_reinscription' => 'nullable|date|after_or_equal:date_ouverture_inscription',
+            'statut_annee' => 'nullable|in:0,1', // exemple : 0 = inactif, 1 = actif
 
         ];
     }
-
 
     public function messages(): array
     {
-         return [
-            'libelle.required' => 'Le champ libelle est obligatoire.',
-            'libelle.string' => 'Le libelle doit être une chaîne de caractères.',
-            'libelle.max' => 'Le libelle ne peut pas dépasser 100 caractères.',
-            'libelle.unique' => 'Une année  active avec ce libelle existe déjà.',
+        return [
+            'libelle.required' => 'Le libellé est obligatoire.',
+            'libelle.string' => 'Le libellé doit être une chaîne de caractères.',
+            'date_rentree.required' => 'La date de rentrée est obligatoire.',
+            'date_rentree.date' => 'La date de rentrée doit être une date valide.',
+            'date_fin.required' => 'La date de fin est obligatoire.',
+            'date_fin.date' => 'La date de fin doit être une date valide.',
+            'date_fin.after_or_equal' => 'La date de fin doit être postérieure ou égale à la date de rentrée.',
+            'date_fermeture_reinscription.after_or_equal' => 'La fermeture des réinscriptions doit être après l’ouverture.',
+            'statut_annee.in' => 'Le statut doit être 0 ou 1.',
+
         ];
-
-
     }
 }

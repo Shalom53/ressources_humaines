@@ -2,58 +2,40 @@
 
 namespace App\Http\Requests;
 
-use App\Types\TypeStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class NiveauRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return true; // à adapter si besoin de restrictions par utilisateur
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
-        $niveauId = $this->route('id');
         return [
-          'libelle' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('niveaux', 'libelle')
-                    ->where('etat', TypeStatus::ACTIF)
-                    ->ignore($niveauId),
-            ],
-            'cycle_id' => ['required', 'exists:cycles,id'],
-            'description' => ['nullable', 'string'],
-            'numero_ordre' => ['nullable', 'numeric'],
+            'libelle' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'numero_ordre' => 'nullable|integer|min:0',
+            'cycle_id' => 'nullable|exists:cycles,id',
+
         ];
     }
-
 
     public function messages(): array
     {
-         return [
+        return [
             'libelle.required' => 'Le libellé est obligatoire.',
             'libelle.string' => 'Le libellé doit être une chaîne de caractères.',
-            'libelle.max' => 'Le libellé ne peut pas dépasser 255 caractères.',
-            'libelle.unique' => 'Ce libellé est déjà utilisé pour un niveau actif.',
+            'libelle.max' => 'Le libellé ne doit pas dépasser 255 caractères.',
 
-            'cycle_id.required' => 'Le cycle est obligatoire.',
+            'description.string' => 'La description doit être une chaîne de caractères.',
+
+            'numero_ordre.integer' => 'Le numéro d\'ordre doit être un entier.',
+            'numero_ordre.min' => 'Le numéro d\'ordre doit être supérieur ou égal à 0.',
+
             'cycle_id.exists' => 'Le cycle sélectionné est invalide.',
+
         ];
-
-
     }
 }

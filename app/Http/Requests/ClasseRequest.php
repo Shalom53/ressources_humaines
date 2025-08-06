@@ -2,58 +2,41 @@
 
 namespace App\Http\Requests;
 
-use App\Types\TypeStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class ClasseRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return true; // à personnaliser si tu veux restreindre l'accès
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
-
-
-
         return [
-
-            'niveau_id' => ['required', 'exists:niveaux,id'],
-            'cycle_id' => ['required', 'exists:cycles,id'],
-            'libelle' => ['required', 'string', 'max:255'],
-
-            'emplacement' => ['nullable', 'string'],
-            'annee_id' => ['nullable', 'numeric'],
-
+            'libelle' => 'required|string|max:255',
+            'emplacement' => 'nullable|string',
+            'cycle_id' => 'nullable|exists:cycles,id',
+            'niveau_id' => 'nullable|exists:niveaux,id',
+            'annee_id' => 'nullable|exists:annees,id',
 
         ];
     }
-
 
     public function messages(): array
     {
-         return [
-
-          'niveau_id.required' => 'Le niveau est obligatoire.',
-            'niveau_id.exists' => 'La classe  sélectionnée est invalide.',
-            'cycle_id.required' => 'Le cycle est obligatoire.',
-            'cycle_id.exists' => 'Le cycle sélectionné est invalide.',
+        return [
             'libelle.required' => 'Le libellé est obligatoire.',
             'libelle.string' => 'Le libellé doit être une chaîne de caractères.',
+            'libelle.max' => 'Le libellé ne doit pas dépasser 255 caractères.',
+
+            'emplacement.string' => 'L\'emplacement doit être une chaîne de caractères.',
+
+            'cycle_id.exists' => 'Le cycle sélectionné est invalide.',
+            'niveau_id.exists' => 'Le niveau sélectionné est invalide.',
+            'annee_id.exists' => 'L\'année sélectionnée est invalide.',
+
+
         ];
-
-
     }
 }
